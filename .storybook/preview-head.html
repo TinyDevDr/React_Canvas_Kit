@@ -1,0 +1,66 @@
+<script>
+  document.title = 'Canvas Kit Storybook';
+</script>
+<style type="text/css">
+  body {
+    margin: 40px !important;
+    padding: 0 !important;
+    font-family: sans-serif;
+  }
+
+  .story > * {
+    margin: 12px !important;
+  }
+
+  .story h1.section-label {
+    border-bottom: 1px solid #ccc;
+    margin-top: 48px !important;
+    padding-bottom: 16px;
+  }
+</style>
+<!-- preload fonts for Chromatic -->
+<link rel="preload" href="Roboto-Light.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="Roboto-Medium.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="RobotoMono-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+<!-- Font faces -->
+<style>
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Roboto Light'), local('Roboto-Light'), url(Roboto-Light.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto Regular'), local('Roboto-Regular'),
+      url(Roboto-Regular.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Roboto Medium'), local('Roboto-Medium'), url(Roboto-Medium.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Roboto Bold'), local('Roboto-Bold'), url(Roboto-Bold.ttf) format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto Mono'), local('RobotoMono-Regular'),
+      url(RobotoMono-Regular.ttf) format('truetype');
+  }
+</style>

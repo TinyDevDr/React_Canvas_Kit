@@ -1,0 +1,263 @@
+import {Tabs} from '@workday/canvas-kit-react/tabs';
+import {Specifications} from '@workday/canvas-kit-docs';
+
+import {Basic} from './examples/Basic';
+import {NamedTabs} from './examples/NamedTabs';
+import {RightToLeft} from './examples/RightToLeft';
+import {OverflowTabs} from './examples/OverflowTabs';
+import {DisabledTab} from './examples/DisabledTab';
+import {Icons} from './examples/Icons';
+import {SinglePanel} from './examples/SinglePanel';
+import {AlternativeTabStop} from './examples/AlternativeTabStop';
+import {HoistedModel} from './examples/HoistedModel';
+import {DynamicTabs} from './examples/DynamicTabs';
+import {
+  TabsModelConfigComponent,
+  TabsStateComponent,
+  TabsEventsComponent,
+} from './TabsModel.splitprops.tsx';
+
+<Meta title="Components/Containers/Tabs/React" component={Tabs} />
+
+# Canvas Kit Tabs
+
+`Tabs` is a [compound component](/getting-started/for-developers/resources/compound-components/)
+that allows users to navigate between related views of content while remaining in context of the
+page.
+
+[> Workday Design Reference](https://design.workday.com/components/navigation/tabs)
+
+## Installation
+
+```sh
+yarn add @workday/canvas-kit-react
+```
+
+## Usage
+
+### Basic Example
+
+`Tabs` includes a container `Tabs` component and the following subcomponents which can be composed
+in a variety of ways: `Tabs.List`, `Tabs.Item` and `Tabs.Panel`. It follows the
+[W3 Tabs specification](https://www.w3.org/TR/wai-aria-practices/#tabpanel).
+
+In this example, we set up a basic `Tabs` component with five tabs. This example uses a static API
+that does not support overflow.
+
+<ExampleCodeBlock code={Basic} />
+
+### Overflow Tabs
+
+Tabs is a responsive component based on the width of its container. If the rendered tabs exceed the
+width of the `Tabs.List`, an overflow menu will be rendered. This only works against the dynamic API
+where you give the `TabsModel` an array of items to be rendered. The dynamic API handles the React
+`key` for you based on the item's identifier. The dynamic API requires either an `id` on each item
+object or a `getId` function that returns an identifier based on the item. The below example uses an
+`id` property on each item.
+
+The dynamic API takes in any object, but since nothing is known about your object, a
+[render prop](https://reactjs.org/docs/render-props.html) is necessary to instruct a list how it
+should render.
+
+<ExampleCodeBlock code={OverflowTabs} />
+
+### Hoisted Model
+
+By default, `Tabs` will create and use its own [model](#model) internally. Alternatively, you may
+configure your own model with `useTabsModel` and pass it to `Tabs` via the `model` prop. This
+pattern is referred to as
+[hoisting the model](/getting-started/for-developers/resources/compound-components/#configuring-a-model)
+and provides direct access to its `state` and `events` outside of the `Tabs` component.
+
+In this example, we set up external observation of the model state and create an external button to
+trigger an event to change the active tab.
+
+<ExampleCodeBlock code={HoistedModel} />
+
+### Named Tabs
+
+`Tabs.Item` and `Tabs.Panel` both take an optional `name` attribute that is used for the
+`onActivate` callback. This example is identical to the Basic Example, but with named tabs for the
+`Tabs.Item` and `Tabs.Panel` subcomponents.
+
+<ExampleCodeBlock code={NamedTabs} />
+
+### Right-to-Left (RTL)
+
+`Tabs` supports right-to-left languages when specified in the `CanvasProvider` `theme`.
+
+<ExampleCodeBlock code={RightToLeft} />
+
+### Disabled Tab
+
+Set the `disabled` prop of a `Tabs.Item` to `true` to disable it.
+
+<ExampleCodeBlock code={DisabledTab} />
+
+### Tab Icons
+
+Tabs can have icons. You must set `hasIcon` on the `Tabs.Item` and use the `Icon` and `Text`
+subcomponent. The `hasIcon` changes the `Tabs.Item` to change where overflow detection is from the
+`Tabs.Item` element to the `Tabs.Item.Text` element.
+
+<ExampleCodeBlock code={Icons} />
+
+### Alternative Tab Stop
+
+By default, tab panels are focusable for accessibility. If the contents of a tab panel have a
+focusable element, you may disable this default behavior by setting the `tabIndex` prop of
+`Tabs.Panel` to `undefined`. This example has a tab panel with a focusable button.
+
+<ExampleCodeBlock code={AlternativeTabStop} />
+
+### Single Tab Panel
+
+The compound component pattern allows for advanced composition. For example, `Tabs` can be composed
+to have only a single `Tabs.Panel` using attribute overrides and callbacks. More information about
+attributes and callbacks can be found in the prop tables below for each subcomponent.
+
+In this example, we use a hoisted model and the `activeTab` property of the state to show content
+from the `contents` object.
+
+<ExampleCodeBlock code={SinglePanel} />
+
+### Dynamic Tabs
+
+The `Tabs.Item` component takes in an optional `index` property if you want to specify the position
+of a tab. If not defined, by default it will append tabs to the end. In this example, our tabs are
+stored as an array in the state, and we have a fixed tab at the end that can add new tabs to that
+array.
+
+<ExampleCodeBlock code={DynamicTabs} />
+
+## Components
+
+### Tabs
+
+#### Usage
+
+`Tabs` is a container component that is responsible for creating a `TabsModel` and sharing it with
+its subcomponents using React context. It does not represent a real element.
+
+```tsx
+<Tabs onActivate={({data}) => console.log('Activated tab', data.tab)}>
+  {/* Child components */}
+</Tabs>
+```
+
+Alternatively, you may pass in a model using the hoisted model pattern.
+
+```tsx
+const model = useTabsModel({
+  onActivate({data}) {
+    console.log('Activated Tab', data.tab);
+  },
+});
+
+<Tabs model={model}>{/* Child components */}</Tabs>;
+```
+
+#### Props
+
+Note that if you pass in a `model` configured with `useTabsModel`, configuration props passed to
+`Tabs` will be ignored.
+
+<ArgsTable of={Tabs} />
+
+### Tabs.List
+
+#### Usage
+
+`Tabs.List` is a `<div role="tablist">` element. It is a container for `Tabs.Item` subcomponents.
+
+```tsx
+<Tabs.List>{/* Tabs.Items */}</Tabs.List>
+```
+
+#### Props
+
+Undocumented props are spread to the underlying `<div>` element.
+
+<ArgsTable of={Tabs.List} />
+
+### Tabs.Item
+
+#### Usage
+
+`Tabs.Item` is a `<button role="tab">` element. Each `Tabs.Item` is associated with a `Tabs.Panel`
+either by a `name` attribute or by the position in the list. If a `name` is provided, it must match
+the name passed to the corresponding `Tabs.Panel` component.
+
+```tsx
+<Tabs.Item name="first">First Tab</Tabs.Item>
+```
+
+#### Props
+
+Undocumented props are spread to the underlying `button` element.
+
+<ArgsTable of={Tabs.Item} />
+
+### Tabs.Panel
+
+#### Usage
+
+`Tabs.Panel` is a `<div role="tabpanel">` element. It is focusable by default. Each `Tabs.Panel` is
+controlled by a `Tabs.Item` either by a `name` attribute or by the position in the list. If a `name`
+is provided, it must match the name passed to the corresponding `Tabs.Item` component.
+
+```tsx
+<Tabs.Panel name="first">{/* Contents of the tab panel */}</Tabs.Panel>
+```
+
+#### Props
+
+Undocumented props are spread to the underlying `<div>` element.
+
+<ArgsTable of={Tabs.Panel} />
+
+## Model
+
+If `Tabs` was stripped of all its markup, attributes, and styling, what would remain is the
+[model](/getting-started/for-developers/resources/compound-components/#models). The model is an
+object composed of two parts: `state` which describes the current snapshot in time of the component
+and `events` which describes events that can be sent to the model.
+
+By default, `Tabs` will create a model and share it internally with its subcomponents using React
+context. Alternatively, if you need direct access to the model's `state` and `events` outside of the
+`Tabs` component, you may configure your own model with `useTabsModel` and pass it to `Tabs` via a
+pattern called
+[hoisting the model](/getting-started/for-developers/resources/compound-components/#configuring-a-model).
+
+```tsx
+const model = useTabsModel({
+  onActivate({data}) {
+    console.log('Activated Tab', data);
+  },
+});
+
+<Tabs model={model}>{/* Child components */}</Tabs>;
+```
+
+### Config
+
+`useTabsModel` accepts a configuration object with the following properties and returns a
+`TabsModel` with `state` and `events` properties.
+
+<ArgsTable of={TabsModelConfigComponent} />
+
+### State
+
+The `TabsModel` `state` is an object with the following properties.
+
+<ArgsTable of={TabsStateComponent} />
+
+### Events
+
+The `TabsModel` `events` is an object with the following properties.
+
+<ArgsTable of={TabsEventsComponent} />
+
+## Specifications
+
+<Specifications file="Tabs.spec.ts" name="Tabs" />

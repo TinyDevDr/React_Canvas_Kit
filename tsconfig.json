@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "target": "es5",
+    "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "lib": ["es2015", "es2017", "dom"],
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": false,
+    "noImplicitReturns": true,
+    "preserveConstEnums": true,
+    "allowUnreachableCode": false,
+    "strict": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "types": [],
+    "incremental": true,
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "module": "commonjs"
+  },
+  "exclude": ["cypress", "node_modules", "modules/**/dist/*", "modules/**/ts-tmp/*", "docs", "utils/**/spec/*", "modules/**/spec/*", "modules/**/stories/*", "jest/**/*"]
+}
